@@ -181,6 +181,67 @@
                 options: ["Sum of all isotope masses", "Most abundant isotope mass", "Weighted average of isotope masses and abundances", "Lightest isotope mass"],
                 correct: 2,
                 feedback: "The average relative atomic mass is calculated by taking the weighted average of isotope masses and their relative abundances."
+            },
+            // New questions added below
+            {
+                question: "What is the maximum number of electrons that can occupy a p-subshell?",
+                options: ["2", "6", "10", "14"],
+                correct: 1,
+                feedback: "A p-subshell can hold a maximum of 6 electrons."
+            },
+            {
+                question: "Which of the following electron configurations represents a noble gas?",
+                options: ["1s² 2s² 2p⁶", "1s² 2s² 2p⁶ 3s¹", "1s² 2s² 2p⁶ 3s² 3p¹", "1s² 2s² 2p⁶ 3s² 3p⁶ 4s¹"],
+                correct: 0,
+                feedback: "1s² 2s² 2p⁶ is the electron configuration for neon, a noble gas."
+            },
+            {
+                question: "In which orbital does an electron in a hydrogen atom have the lowest energy?",
+                options: ["1s", "2s", "2p", "3s"],
+                correct: 0,
+                feedback: "The 1s orbital is the lowest energy level in a hydrogen atom."
+            },
+            {
+                question: "What is the shape of an s-orbital?",
+                options: ["Dumbbell-shaped", "Spherical", "Cloverleaf-shaped", "Complex"],
+                correct: 1,
+                feedback: "s-orbitals are spherical in shape."
+            },
+            {
+                question: "Which of the following statements about ionisation energy is correct?",
+                options: ["First ionisation energy decreases across a period", "First ionisation energy increases down a group", "Second ionisation energy is always higher than the first", "Noble gases have the lowest first ionisation energies"],
+                correct: 2,
+                feedback: "The second ionisation energy is always higher than the first because it requires more energy to remove an electron from a positively charged ion."
+            },
+            {
+                question: "The mass spectrum of chlorine shows peaks at m/z 35 and m/z 37. What causes these peaks?",
+                options: ["Different isotopes of chlorine", "Fragmentation of molecules", "Chlorine forming diatomic molecules", "Contamination in the sample"],
+                correct: 0,
+                feedback: "Chlorine has two common isotopes, Cl-35 and Cl-37, which cause the two peaks."
+            },
+            {
+                question: "What is the electronic configuration of a Ca²⁺ ion?",
+                options: ["1s² 2s² 2p⁶ 3s² 3p⁶ 4s²", "1s² 2s² 2p⁶ 3s² 3p⁶", "1s² 2s² 2p⁶ 3s² 3p⁶ 3d²", "1s² 2s² 2p⁶ 3s² 3p⁶ 4s² 4p⁶"],
+                correct: 1,
+                feedback: "A Ca²⁺ ion has lost two electrons, resulting in the configuration of Argon: 1s² 2s² 2p⁶ 3s² 3p⁶."
+            },
+            {
+                question: "Which principle states that electrons occupy the lowest energy orbital available?",
+                options: ["Pauli Exclusion Principle", "Hund's Rule", "Aufbau Principle", "Heisenberg Uncertainty Principle"],
+                correct: 2,
+                feedback: "The Aufbau Principle states that electrons fill the lowest energy orbitals first."
+            },
+            {
+                question: "What is the term for the number of protons and neutrons in the nucleus?",
+                options: ["Atomic number", "Mass number", "Isotope number", "Nucleon number"],
+                correct: 3,
+                feedback: "The nucleon number is the total number of protons and neutrons in the nucleus."
+            },
+            {
+                question: "What is the trend of first ionisation energy across Period 3 from sodium to argon?",
+                options: ["It decreases", "It remains constant", "It increases", "It fluctuates randomly"],
+                correct: 2,
+                feedback: "The first ionisation energy generally increases across a period due to increasing nuclear charge."
             }
         ];
 
@@ -293,7 +354,7 @@
         }
 
         function updateProgress() {
-            const progressPercentage = ((currentQuestion + 1) / quizData.length) * 100;
+            const progressPercentage = (currentQuestion / quizData.length) * 100;
             progress.style.width = `${progressPercentage}%`;
         }
 
