@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemistry Explorer: Atomic Structure Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f4f8;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        #quiz-container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .question {
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .option {
+            background-color: #ecf0f1;
+            border: 2px solid #bdc3c7;
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .option:hover {
+            background-color: #d5dbdb;
+            transform: translateY(-2px);
+        }
+        .selected {
+            background-color: #3498db;
+            color: #fff;
+            border-color: #2980b9;
+        }
+        .correct {
+            background-color: #2ecc71;
+            color: #fff;
+            border-color: #27ae60;
+        }
+        .incorrect {
+            background-color: #e74c3c;
+            color: #fff;
+            border-color: #c0392b;
+        }
+        #submit-btn, #next-btn, #restart-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #2ecc71;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        #submit-btn:hover, #next-btn:hover, #restart-btn:hover {
+            background-color: #27ae60;
+        }
+        #result {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-style: italic;
+            color: #7f8c8d;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress {
+            width: 0%;
+            height: 100%;
+            background-color: #3498db;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chemistry Explorer: Atomic Structure Quiz</h1>
+    <div id="quiz-container">
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div id="question-container"></div>
+        <button id="submit-btn">Submit Answer</button>
+        <button id="next-btn" style="display: none;">Next Question</button>
+        <button id="restart-btn" style="display: none;">Restart Quiz</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "What does the atomic number (Z) represent?",
+                options: ["Number of neutrons", "Number of protons", "Number of electrons", "Sum of protons and neutrons"],
+                correct: 1,
+                feedback: "The atomic number (Z) represents the number of protons in the nucleus of an atom."
+            },
+            {
+                question: "What is the mass number (A) of an atom?",
+                options: ["Number of protons", "Number of neutrons", "Number of electrons", "Sum of protons and neutrons"],
+                correct: 3,
+                feedback: "The mass number (A), also called the nucleon number, is the sum of protons and neutrons in the nucleus of an atom."
+            },
+            {
+                question: "What is the relative atomic mass (Ar) based on?",
+                options: ["Mass of a proton", "Mass of a neutron", "Mass of carbon-12 isotope", "Mass of uranium-238 isotope"],
+                correct: 2,
+                feedback: "The relative atomic mass (Ar) is based on the mass of an atom relative to the carbon-12 isotope, which has a value of 12.000."
+            },
+            {
+                question: "Which of the following is used for any formula of a species or ion?",
+                options: ["Relative atomic mass", "Relative isotopic mass", "Relative molecular mass", "Relative formula mass"],
+                correct: 3,
+                feedback: "The relative formula mass is used for any formula of a species or ion, such as NaCl or OH⁻."
+            },
+            {
+                question: "What are isotopes?",
+                options: ["Atoms with different atomic numbers", "Atoms with different mass numbers but the same atomic number", "Atoms with different numbers of electrons", "Atoms with different chemical properties"],
+                correct: 1,
+                feedback: "Isotopes are atoms with the same atomic number (same number of protons) but different mass numbers (different numbers of neutrons)."
+            },
+            {
+                question: "What property of isotopes is identical?",
+                options: ["Mass number", "Number of neutrons", "Chemical properties", "Relative atomic mass"],
+                correct: 2,
+                feedback: "The chemical properties of isotopes are identical because they have the same number of electrons and protons."
+            },
+            {
+                question: "In a mass spectrum, what does the position of peaks indicate?",
+                options: ["Relative abundance", "Atomic number", "Atomic mass", "Number of neutrons"],
+                correct: 2,
+                feedback: "In a mass spectrum, the positions of peaks give the atomic mass of the isotopes."
+            },
+            {
+                question: "What happens to the m/z value when an ion acquires a 2+ charge in a mass spectrometer?",
+                options: ["It doubles", "It halves", "It remains the same", "It becomes zero"],
+                correct: 1,
+                feedback: "If an ion acquires a 2+ charge, it will be deflected more, and its m/z value is halved."
+            },
+            {
+                question: "What is the first step in the mass spectrometer process?",
+                options: ["Acceleration", "Ionisation", "Deflection", "Detection"],
+                correct: 1,
+                feedback: "The first step in a mass spectrometer is ionisation, where gaseous atoms are bombarded by electrons from a gun to form ions."
+            },
+            {
+                question: "How is the average relative atomic mass calculated for an element with multiple isotopes?",
+                options: ["Sum of all isotope masses", "Most abundant isotope mass", "Weighted average of isotope masses and abundances", "Lightest isotope mass"],
+                correct: 2,
+                feedback: "The average relative atomic mass is calculated by taking the weighted average of isotope masses and their relative abundances."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        const questionContainer = document.getElementById('question-container');
+        const submitBtn = document.getElementById('submit-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const result = document.getElementById('result');
+        const progress = document.getElementById('progress');
+
+        function showQuestion() {
+            const question = quizData[currentQuestion];
+            let optionsHtml = '';
+
+            question.options.forEach((option, index) => {
+                optionsHtml += `
+                    <li class="option" data-index="${index}">${option}</li>
+                `;
+            });
+
+            questionContainer.innerHTML = `
+                <div class="question">
+                    <p>${currentQuestion + 1}. ${question.question}</p>
+                    <ul class="options">
+                        ${optionsHtml}
+                    </ul>
+                </div>
+            `;
+
+            // Add event listeners to options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', selectOption);
+            });
+
+            answered = false;
+            submitBtn.style.display = 'block';
+            nextBtn.style.display = 'none';
+            result.textContent = '';
+            updateProgress();
+        }
+
+        function selectOption(e) {
+            if (answered) return;
+            
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            e.target.classList.add('selected');
+        }
+
+        function submitAnswer() {
+            if (answered) return;
+
+            const selectedOption = document.querySelector('.option.selected');
+            if (!selectedOption) {
+                alert('Please select an answer');
+                return;
+            }
+
+            answered = true;
+            const selectedAnswer = parseInt(selectedOption.getAttribute('data-index'));
+            const question = quizData[currentQuestion];
+
+            if (selectedAnswer === question.correct) {
+                selectedOption.classList.add('correct');
+                result.textContent = 'Correct!';
+                result.style.color = '#2ecc71';
+                score++;
+            } else {
+                selectedOption.classList.add('incorrect');
+                document.querySelector(`.option[data-index="${question.correct}"]`).classList.add('correct');
+                result.textContent = 'Incorrect.';
+                result.style.color = '#e74c3c';
+            }
+
+            result.innerHTML += `<div class="feedback">${question.feedback}</div>`;
+            submitBtn.style.display = 'none';
+            nextBtn.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            questionContainer.innerHTML = `
+                <h2>Quiz Completed!</h2>
+                <p>Your score: ${score} out of ${quizData.length}</p>
+            `;
+            submitBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+            restartBtn.style.display = 'block';
+            updateProgress();
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            showQuestion();
+            restartBtn.style.display = 'none';
+        }
+
+        function updateProgress() {
+            const progressPercentage = ((currentQuestion + 1) / quizData.length) * 100;
+            progress.style.width = `${progressPercentage}%`;
+        }
+
+        submitBtn.addEventListener('click', submitAnswer);
+        nextBtn.addEventListener('click', nextQuestion);
+        restartBtn.addEventListener('click', restartQuiz);
+
+        showQuestion();
+    </script>
+</body>
+</html>
